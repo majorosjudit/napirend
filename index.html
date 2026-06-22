@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nyári Napirend ☀️</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #FFF8F0;
+    --sun: #FFBE0B;
+    --coral: #FF6B6B;
+    --mint: #06D6A0;
+    --lavender: #A78BFA;
+    --peach: #FFB347;
+    --rose: #FF85A1;
+    --blue: #4CC9F0;
+    --card-bg: #FFFFFF;
+    --shadow: rgba(0,0,0,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background-color: var(--sky);
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(255,190,11,0.12) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(76,201,240,0.12) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(167,139,250,0.06) 0%, transparent 60%);
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+    padding: 1.5rem 1rem 5rem;
+  }
+  header { text-align: center; margin-bottom: 1.5rem; }
+  .sun-icon { font-size: 3rem; display: block; animation: spin 20s linear infinite; margin-bottom: 0.2rem; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  h1 { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: clamp(1.8rem, 6vw, 2.8rem); color: #3D2B1F; line-height: 1.1; }
+  .subtitle { font-size: 0.95rem; color: #7C6A5E; margin-top: 0.3rem; font-weight: 600; }
+
+  /* Summer progress bar */
+  .summer-progress-wrap {
+    max-width: 680px;
+    margin: 0 auto 1rem;
+    background: linear-gradient(135deg, #FFF3CD, #FFE8A3);
+    border-radius: 20px;
+    padding: 0.9rem 1.2rem;
+    box-shadow: 0 2px 12px rgba(255,190,11,0.2);
+    border: 2px solid rgba(255,190,11,0.3);
+  }
+  .summer-progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .summer-label {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #7A5500;
+  }
+  .summer-days {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #B07D00;
+  }
+  .summer-bar-outer {
+    height: 14px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 30px;
+    overflow: hidden;
+  }
+  .summer-bar-inner {
+    height: 100%;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #FFBE0B, #FF6B6B, #A78BFA);
+    transition: width 0.6s ease;
+  }
+  .summer-icons {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    margin-top: 0.3rem;
+    color: #9A7200;
+    font-weight: 600;
+  }
+
+  /* Special day banner */
+  .special-day-card {
+    max-width: 680px;
+    margin: 0 auto 1rem;
+    background: white;
+    border-radius: 20px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 4px 16px var(--shadow);
+    border: 2.5px solid #FFD966;
+  }
+  .special-day-header {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #3D2B1F;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .special-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .special-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 30px;
+    border: 2px solid #EEE;
+    background: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #7C6A5E;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .special-btn:hover { border-color: var(--sun); color: #B07D00; }
+  .special-btn.active { background: #FFBE0B; border-color: #FFBE0B; color: #3D2B1F; }
+  .special-input {
+    flex: 1;
+    min-width: 140px;
+    padding: 0.4rem 0.8rem;
+    border-radius: 30px;
+    border: 2px solid #EEE;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #3D2B1F;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .special-input:focus { border-color: var(--sun); }
+
+  /* Dance camp banner */
+  .dancetabor-banner {
+    max-width: 680px;
+    margin: 0 auto 1rem;
+    background: linear-gradient(135deg, #FFE4F0, #F3E8FF);
+    border-radius: 20px;
+    padding: 1.1rem 1.4rem;
+    box-shadow: 0 4px 16px rgba(167,139,250,0.2);
+    border: 2.5px solid #C084FC;
+    text-align: center;
+  }
+  .dancetabor-banner h2 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: #6B21A8;
+    margin-bottom: 0.3rem;
+  }
+  .dancetabor-banner p {
+    font-size: 0.9rem;
+    color: #7C3AAC;
+    font-weight: 600;
+  }
+
+  /* Daily progress */
+  .progress-bar-wrap {
+    max-width: 680px;
+    margin: 0 auto 1rem;
+    background: white;
+    border-radius: 30px;
+    padding: 0.7rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  .progress-label { font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 0.85rem; color: #3D2B1F; white-space: nowrap; }
+  .bar-outer { flex: 1; height: 12px; background: #F0EBE8; border-radius: 30px; overflow: hidden; }
+  .bar-inner { height: 100%; border-radius: 30px; background: linear-gradient(90deg, #FFBE0B, #FF6B6B, #A78BFA); transition: width 0.4s ease; width: 0%; }
+  .progress-pct { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1rem; color: #FF6B6B; min-width: 36px; text-align: right; }
+
+  /* Task cards */
+  .checklist { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.85rem; }
+  .task-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 1rem 1.2rem 1rem 1rem;
+    display: flex; align-items: flex-start; gap: 1rem;
+    box-shadow: 0 4px 16px var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    position: relative; overflow: hidden;
+    border: 2.5px solid transparent;
+  }
+  .task-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+    border-radius: 20px 0 0 20px; background: var(--accent);
+  }
+  .task-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .task-card.done { opacity: 0.6; }
+  .task-card.done .task-title { text-decoration: line-through; color: #AAA; }
+  .emoji-badge {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2, var(--accent)));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; flex-shrink: 0; box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  }
+  .task-content { flex: 1; }
+  .task-meta { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.15rem; }
+  .task-title { font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 1.05rem; color: #2D1F17; margin-bottom: 0.2rem; line-height: 1.2; }
+  .task-desc { font-size: 0.82rem; color: #7C6A5E; line-height: 1.4; }
+  .checkbox {
+    width: 26px; height: 26px; border-radius: 8px; border: 2.5px solid #DDD;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease; margin-top: 12px; background: white;
+  }
+  .task-card.done .checkbox { background: var(--accent); border-color: var(--accent); }
+  .checkbox::after {
+    content: ''; display: none; width: 6px; height: 11px;
+    border: 2.5px solid white; border-top: none; border-left: none;
+    transform: rotate(45deg) translateY(-1px);
+  }
+  .task-card.done .checkbox::after { display: block; }
+
+  /* Star card */
+  .star-card {
+    background: linear-gradient(135deg, #FFF9E6, #FFF0C2);
+    border: 2.5px solid #FFD700;
+    cursor: default;
+  }
+  .star-card:hover { transform: none; }
+  .star-card .task-title { color: #7A5500; }
+  .star-card .task-desc { color: #9A7200; }
+
+  /* Badges */
+  .badge-weather { display: inline-flex; align-items: center; gap: 3px; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-top: 0.3rem; }
+  .badge-sun { background: rgba(255,190,11,0.15); color: #B07D00; }
+  .badge-rain { background: rgba(76,201,240,0.15); color: #1A7FA0; }
+  .badge-special { background: rgba(255,133,161,0.18); color: #C0336A; }
+
+  /* Stars & bottom */
+  .stars-container { text-align: center; margin-top: 1.2rem; font-size: 1.6rem; min-height: 2.2rem; transition: all 0.3s; }
+  .reset-btn {
+    max-width: 680px; margin: 1.2rem auto 0; display: block;
+    background: none; border: 2px solid #DDD; border-radius: 30px;
+    padding: 0.5rem 1.5rem; font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem; font-weight: 700; color: #AAA; cursor: pointer; transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--coral); color: var(--coral); }
+
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .pop { animation: pop 0.3s ease; }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="sun-icon">☀️</span>
+  <h1>Nyári Napirend</h1>
+  <p class="subtitle" id="subtitle">Pipáld ki a mai feladatokat! 🌸</p>
+</header>
+
+<!-- Summer progress -->
+<div class="summer-progress-wrap">
+  <div class="summer-progress-top">
+    <span class="summer-label">🌴 Nyári szünet haladása</span>
+    <span class="summer-days" id="summerDaysLabel"></span>
+  </div>
+  <div class="summer-bar-outer">
+    <div class="summer-bar-inner" id="summerBarInner" style="width:0%"></div>
+  </div>
+  <div class="summer-icons">
+    <span>🎒 jún. 22.</span>
+    <span id="summerMidLabel"></span>
+    <span>🍂 szept. 1.</span>
+  </div>
+</div>
+
+<!-- Special day toggle -->
+<div class="special-day-card" id="specialDayCard">
+  <div class="special-day-header">🌟 Ma különleges nap?</div>
+  <div class="special-options">
+    <button class="special-btn" onclick="toggleSpecial('nyaralas')" id="btn-nyaralas">🏖️ Nyaralás</button>
+    <button class="special-btn" onclick="toggleSpecial('kirándulás')" id="btn-kirándulás">🏔️ Kirándulás</button>
+    <button class="special-btn" onclick="toggleSpecial('vendég')" id="btn-vendég">👨‍👩‍👧 Vendég</button>
+    <button class="special-btn" onclick="toggleSpecial('egyéb')" id="btn-egyéb">✨ Egyéb</button>
+    <input class="special-input" type="text" id="specialText" placeholder="Mi történik ma?" oninput="saveSpecialText()" />
+  </div>
+</div>
+
+<!-- Dance camp banner (shown only during camp) -->
+<div class="dancetabor-banner" id="danceBanner" style="display:none">
+  <h2>💃 Tánctábor hete! 🕺</h2>
+  <p>Június 29 – Július 3 között tánctábor van – ma a szokásos napi rutin szünetel. Jó szórakozást!</p>
+</div>
+
+<!-- Daily progress -->
+<div class="progress-bar-wrap">
+  <span class="progress-label">Mai haladás</span>
+  <div class="bar-outer"><div class="bar-inner" id="barInner"></div></div>
+  <span class="progress-pct" id="pctLabel">0%</span>
+</div>
+
+<div class="checklist" id="checklist"></div>
+<div class="stars-container" id="stars"></div>
+<button class="reset-btn" onclick="resetAll()">↺ Új nap – mindent visszaállít</button>
+
+<script>
+// ── Date helpers ──────────────────────────────────────────
+const today = new Date();
+const dow = today.getDay(); // 0=V,1=H,2=K,3=Sz,4=Cs,5=P,6=Szo
+const isTuesday   = dow === 2;
+const isWednesday = dow === 3;
+const DAYS_HU = ['vasárnap','hétfő','kedd','szerda','csütörtök','péntek','szombat'];
+const todayKey = today.toISOString().slice(0,10);
+
+// Dance camp: June 29 – July 3 (year-agnostic check)
+const mo = today.getMonth(); // 0-based
+const da = today.getDate();
+const isDanceCamp = (mo === 5 && da >= 29) || (mo === 6 && da <= 3);
+
+// Summer progress: June 22 → Sept 1
+function summerProgress() {
+  const year = today.getFullYear();
+  const start = new Date(year, 5, 22);  // June 22
+  const end   = new Date(year, 8, 1);   // Sept 1
+  const total = end - start;
+  const elapsed = Math.max(0, Math.min(today - start, total));
+  const pct = Math.round((elapsed / total) * 100);
+  const daysLeft = Math.max(0, Math.ceil((end - today) / 86400000));
+  const daysDone = Math.max(0, Math.floor((today - start) / 86400000));
+  return { pct, daysLeft, daysDone };
+}
+
+// ── Storage ───────────────────────────────────────────────
+const STORAGE_KEY   = 'napirend_tasks_' + todayKey;
+const SPECIAL_KEY   = 'napirend_special_' + todayKey;
+
+function loadState()   { try { return JSON.parse(localStorage.getItem(STORAGE_KEY))  || {}; } catch { return {}; } }
+function saveState(s)  { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch {} }
+function loadSpecial() { try { return JSON.parse(localStorage.getItem(SPECIAL_KEY)) || { tag: null, text: '' }; } catch { return { tag: null, text: '' }; } }
+function saveSpecial(s){ try { localStorage.setItem(SPECIAL_KEY, JSON.stringify(s)); } catch {} }
+
+let state   = loadState();
+let special = loadSpecial();
+
+// ── Task definitions ──────────────────────────────────────
+function getMorningMove() {
+  if (isTuesday) return {
+    emoji: "🧘", title: "Jóga anyával 💛",
+    desc: "Jóganap anyával! 🕗 Indulás 7:45-kor, hogy 8:00-ra ott legyetek. Légzés, nyújtás, egyensúly – közösen!",
+    special: "👩‍👧 Indulás: 7:45 · Jóga: 8:00–9:00", time: "7:45 – 9:00"
+  };
+  if (isWednesday) return {
+    emoji: "🤸", title: "Torna anyával 💪",
+    desc: "Tornanap anyával! 🕖 Indulás 7:15-kor, hogy 7:30-ra ott legyetek. Ugrálós, erős, vidám közös mozgás!",
+    special: "👩‍👧 Indulás: 7:15 · Torna: 7:30–9:00", time: "7:15 – 9:00"
+  };
+  return {
+    emoji: "🧘", title: "Friss levegő & mozgás",
+    desc: "Rövid séta az udvaron, kertben, vagy 10 perces torna bent. Ébredjen fel a tested!",
+    special: null, time: "7:15 – 7:45"
+  };
+}
+
+const move = getMorningMove();
+const prepEnd   = isTuesday ? "7:45" : isWednesday ? "7:15" : "7:15";
+const studyStart = (isTuesday || isWednesday) ? "9:00" : "7:45";
+
+const tasks = [
+  {
+    num: 1, time: "6:30 – " + prepEnd, emoji: "🌅", title: "Reggeli készülődés",
+    desc: isTuesday
+      ? "Felkelés, fogmosás, öltözés, reggeli – és 7:45-kor indulunk jógára anyával! 🧘"
+      : isWednesday
+      ? "Felkelés, fogmosás, öltözés, reggeli – és 7:15-kor indulunk tornára anyával! 🤸"
+      : "Felkelés, fogmosás, arc megmosása, öltözés, reggeli elfogyasztása. Szép lassan, jó kedvvel!",
+    accent: "#FFBE0B", accent2: "#FFD966", category: "Reggel"
+  },
+  {
+    num: 2, time: move.time, emoji: move.emoji, title: move.title, desc: move.desc,
+    accent: "#06D6A0", accent2: "#5EEEC0", category: "Mozgás", special: move.special
+  },
+  {
+    num: 3, time: studyStart + " – 9:45", emoji: "📚", title: "Iskolai ismétlés",
+    desc: "Egy kis matek, olvasás vagy írás – válassz egyet! Nem házi feladat, csak játékos átismétlés.",
+    accent: "#4CC9F0", accent2: "#90E0FF", category: "Tanulás"
+  },
+  {
+    num: 4, time: "9:45 – 10:30", emoji: "🇩🇪", title: "Napi némettanulás",
+    desc: "Egy rövid német mese meghallgatása vagy elolvasása + 5 új szó megtanulása. Deutsch macht Spaß! 🎉",
+    accent: "#A78BFA", accent2: "#C4B5FD", category: "Nyelv"
+  },
+  {
+    num: 5, time: "10:30 – 12:00", emoji: "🎨", title: "Kreatív alkotás",
+    desc: "Rajzolás, festés, gyurmázás, origami, kézimunka – bármit, amit a szíved kíván!",
+    accent: "#FF85A1", accent2: "#FFB3C6", category: "Kreativitás", weather: "both"
+  },
+  {
+    num: 6, time: "12:00 – 13:00", emoji: "🍽️", title: "Ebéd + pihenő",
+    desc: "Lassan egyél, kóstolj meg mindent! Utána 20-30 perc nyugalom – könyv, hallgatás, szundikálás.",
+    accent: "#FFB347", accent2: "#FFD280", category: "Pihenő"
+  },
+  {
+    num: 7, time: "13:00 – 15:00", emoji: "🌞", title: "Szabad játék (kint / bent)",
+    desc: "Ha süt a nap: kint játszol, kerékpározol, vizezels 🌤️. Ha esik az eső: társasjáték, lego, kirakó 🌧️.",
+    accent: "#FF6B6B", accent2: "#FF9E9E", category: "Játék", weather: "both"
+  },
+  {
+    num: 8, time: "15:00 – 16:00", emoji: "🌿", title: "Szabadtéri kódolás / természet",
+    desc: "Jó időben: kerti akadálypálya, természetfigyelés, rovarkutatás. Rossz időben: Scratch, Hour of Code vagy rajzos programozás.",
+    accent: "#06D6A0", accent2: "#34EEB4", category: "Kódolás", weather: "both"
+  },
+  {
+    num: 9, time: "18:00 – 19:00", emoji: "🌙", title: "Esti rutin",
+    desc: "Vacsora, fürdés, pizsamába bújás. Mesélj el valakinek egy dolgot, ami ma tetszett! 😊",
+    accent: "#818CF8", accent2: "#A5B4FC", category: "Este"
+  },
+  {
+    num: 10, time: "19:00 – 19:30", emoji: "📖", title: "Esti olvasás + álomba merülés",
+    desc: "Egy rövid mese vagy könyv – magadnak vagy valakivel együtt. Majd édes álmok! 🌟",
+    accent: "#C084FC", accent2: "#E9D5FF", category: "Lefekvés"
+  },
+  {
+    num: 11, time: "19:30", emoji: "⭐", title: "Kérhetsz anyától egy csillagot!",
+    desc: "Ha szépen végigcsináltad a napot, menj oda anyához és kérj tőle egy csillagot! Megérdemelted! 🥰",
+    accent: "#FFD700", accent2: "#FFF176", category: "Jutalom", starCard: true
+  }
+];
+
+// ── Render helpers ────────────────────────────────────────
+function renderSummerProgress() {
+  const { pct, daysLeft, daysDone } = summerProgress();
+  document.getElementById('summerBarInner').style.width = pct + '%';
+  document.getElementById('summerDaysLabel').textContent = daysDone + ' nap telt el · ' + daysLeft + ' nap van még';
+  // mid label
+  const year = today.getFullYear();
+  document.getElementById('summerMidLabel').textContent = '🏊 aug. 1.';
+}
+
+function renderSpecialControls() {
+  // Restore saved state
+  if (special.tag) {
+    document.querySelectorAll('.special-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById('btn-' + special.tag);
+    if (btn) btn.classList.add('active');
+  }
+  document.getElementById('specialText').value = special.text || '';
+}
+
+function toggleSpecial(tag) {
+  if (special.tag === tag) {
+    special.tag = null;
+    document.getElementById('btn-' + tag).classList.remove('active');
+  } else {
+    document.querySelectorAll('.special-btn').forEach(b => b.classList.remove('active'));
+    special.tag = tag;
+    document.getElementById('btn-' + tag).classList.add('active');
+  }
+  saveSpecial(special);
+}
+
+function saveSpecialText() {
+  special.text = document.getElementById('specialText').value;
+  saveSpecial(special);
+}
+
+function render() {
+  // Subtitle
+  document.getElementById('subtitle').textContent = 'Ma ' + DAYS_HU[dow] + ' van 🌸 Pipáld ki a mai feladatokat!';
+
+  // Dance camp
+  document.getElementById('danceBanner').style.display = isDanceCamp ? 'block' : 'none';
+  document.getElementById('checklist').style.display = isDanceCamp ? 'none' : 'flex';
+  document.getElementById('specialDayCard').style.display = isDanceCamp ? 'none' : 'block';
+
+  if (isDanceCamp) {
+    document.getElementById('barInner').style.width = '100%';
+    document.getElementById('pctLabel').textContent = '💃';
+    document.getElementById('stars').innerHTML = '';
+    return;
+  }
+
+  const list = document.getElementById('checklist');
+  list.innerHTML = '';
+
+  tasks.forEach((t, i) => {
+    const done = !!state[i];
+    const card = document.createElement('div');
+    card.className = 'task-card' + (done ? ' done' : '') + (t.starCard ? ' star-card' : '');
+    card.style.setProperty('--accent', t.accent);
+    card.style.setProperty('--accent2', t.accent2 || t.accent);
+    if (!t.starCard) card.onclick = () => toggle(i);
+
+    let extras = '';
+    if (t.weather === 'both') {
+      extras += `<span class="badge-weather badge-sun">☀️ Kint</span><span class="badge-weather badge-rain" style="margin-left:4px">🌧️ Bent</span>`;
+    }
+    if (t.special) {
+      extras += `<span class="badge-weather badge-special" style="margin-left:4px">${t.special}</span>`;
+    }
+
+    const checkboxHTML = t.starCard ? '' : '<div class="checkbox"></div>';
+
+    card.innerHTML = `
+      <div class="emoji-badge">${t.emoji}</div>
+      <div class="task-content">
+        <div class="task-meta">${t.num}. · ${t.time} · ${t.category}</div>
+        <div class="task-title">${t.title}</div>
+        <div class="task-desc">${t.desc}</div>
+        ${extras ? `<div style="margin-top:5px">${extras}</div>` : ''}
+      </div>
+      ${checkboxHTML}
+    `;
+    list.appendChild(card);
+  });
+
+  updateProgress();
+}
+
+function toggle(i) {
+  if (tasks[i] && tasks[i].starCard) return;
+  state[i] = !state[i];
+  saveState(state);
+  render();
+  if (state[i]) celebrate(i);
+}
+
+function updateProgress() {
+  const checkable = tasks.filter(t => !t.starCard);
+  const done = checkable.filter((_, i) => !!state[i]).length;
+  const pct = Math.round((done / checkable.length) * 100);
+  document.getElementById('barInner').style.width = pct + '%';
+  document.getElementById('pctLabel').textContent = pct + '%';
+
+  const starsEl = document.getElementById('stars');
+  if (done === checkable.length) {
+    starsEl.innerHTML = '🏆 Szuper! Minden feladat kész! Büszke vagyok rád! 🌟🌟🌟';
+    starsEl.style.fontFamily = "'Baloo 2', cursive";
+    starsEl.style.fontWeight = '800';
+    starsEl.style.color = '#FF6B6B';
+    starsEl.style.fontSize = '1rem';
+  } else {
+    starsEl.innerHTML = '⭐'.repeat(done);
+    starsEl.style.fontSize = '1.6rem';
+  }
+}
+
+function celebrate(i) {
+  const cards = document.querySelectorAll('.task-card');
+  if (cards[i]) {
+    cards[i].classList.add('pop');
+    setTimeout(() => cards[i].classList.remove('pop'), 300);
+  }
+}
+
+function resetAll() {
+  if (confirm('Biztosan visszaállítsuk az összes feladatot? (Új nap!)')) {
+    state = {}; saveState(state);
+    special = { tag: null, text: '' }; saveSpecial(special);
+    renderSpecialControls();
+    render();
+  }
+}
+
+// ── Init ──────────────────────────────────────────────────
+renderSummerProgress();
+renderSpecialControls();
+render();
+</script>
+</body>
+</html>
