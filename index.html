@@ -323,22 +323,40 @@ function buildTasks(d) {
   const studyStart = (isTue || isWed) ? "9:00" : "7:45";
 
   // Afternoon block: swimming replaces free play slot on Wed & Fri
-  const afternoonTasks = hasSwim ? [
+  // Wed: swim 17:30-19:30, Fri: swim at 16:00
+  const afternoonTasks = hasSwim ? isWed ? [
     {
       num:7, time:"13:00 – 15:00", emoji:"🌞", title:"Szabad játék (kint / bent)",
       desc:"Ha süt a nap: kint játszol, kerékpározol 🌤️. Ha esik az eső: társasjáték, lego, kirakó 🌧️.",
       accent:"#FF6B6B", accent2:"#FF9E9E", category:"Játék", weather:"both"
     },
     {
-      num:8, time:"15:00 – 16:30", emoji:"🌿", title:"Kódolás / alkotás",
+      num:8, time:"15:00 – 17:00", emoji:"🌿", title:"Kódolás / alkotás",
       desc:"Scratch, Hour of Code, rajzos programozás vagy kerti megfigyelés – úszás előtt!",
       accent:"#06D6A0", accent2:"#34EEB4", category:"Kódolás", weather:"both"
     },
     {
-      num:9, time:"16:30 – 17:00", emoji:"🏊", title:"Indulás úszásoktatásra",
-      desc:"Elő az úszófelszerelés! Fürdőruha, törölköző, sapka – mindent pakoljatok be és induljatok el időben! 🌊",
+      num:9, time:"17:00 – 17:30", emoji:"🏊", title:"Indulás úszásoktatásra",
+      desc:"Elő az úszófelszerelés! Fürdőruha, törölköző, sapka – induljunk el időben! 🌊",
       accent:"#4CC9F0", accent2:"#90E0FF", category:"Úszás",
-      special:"🏊 Úszásoktatás: 17:00"
+      special:"🏊 Úszásoktatás: 17:30–19:30"
+    }
+  ] : [
+    {
+      num:7, time:"13:00 – 13:30", emoji:"🌞", title:"Szabad játék (kint / bent)",
+      desc:"Ha süt a nap: kint játszol, kerékpározol 🌤️. Ha esik az eső: társasjáték, lego, kirakó 🌧️.",
+      accent:"#FF6B6B", accent2:"#FF9E9E", category:"Játék", weather:"both"
+    },
+    {
+      num:8, time:"13:00 – 15:30", emoji:"🌿", title:"Kódolás / alkotás",
+      desc:"Scratch, Hour of Code, rajzos programozás vagy kerti megfigyelés – úszás előtt!",
+      accent:"#06D6A0", accent2:"#34EEB4", category:"Kódolás", weather:"both"
+    },
+    {
+      num:9, time:"15:30 – 16:00", emoji:"🏊", title:"Indulás úszásoktatásra",
+      desc:"Elő az úszófelszerelés! Fürdőruha, törölköző, sapka – induljunk el időben! 🌊",
+      accent:"#4CC9F0", accent2:"#90E0FF", category:"Úszás",
+      special:"🏊 Úszásoktatás: 16:00"
     }
   ] : [
     {
@@ -388,21 +406,34 @@ function buildTasks(d) {
       accent:"#FFB347", accent2:"#FFD280", category:"Pihenő"
     },
     ...afternoonTasks,
-    {
-      num: afternoonTasks.length + 7, time:"18:00 – 19:00", emoji:"🌙", title:"Esti rutin",
-      desc:"Vacsora, fürdés, pizsamába bújás. Mesélj el valakinek egy dolgot, ami ma tetszett! 😊",
-      accent:"#818CF8", accent2:"#A5B4FC", category:"Este"
-    },
-    {
-      num: afternoonTasks.length + 8, time:"19:00 – 19:30", emoji:"📖", title:"Esti olvasás + álomba merülés",
-      desc:"Egy rövid mese vagy könyv – magadnak vagy valakivel együtt. Majd édes álmok! 🌟",
-      accent:"#C084FC", accent2:"#E9D5FF", category:"Lefekvés"
-    },
-    {
-      num: afternoonTasks.length + 9, time:"19:30", emoji:"⭐", title:"Kérhetsz anyától egy csillagot!",
-      desc:"Ha szépen végigcsináltad a napot, menj oda anyához és kérj tőle egy csillagot! Megérdemelted! 🥰",
-      accent:"#FFD700", accent2:"#FFF176", category:"Jutalom", starCard:true
-    }
+    ...(isWed ? [
+      {
+        num: afternoonTasks.length + 7, time:"19:30 – 20:00", emoji:"🌙", title:"Esti rutin",
+        desc:"Hazaértünk az úszásról! Gyors fürdés, pizsamába bújás, vacsora – és jó éjt! 😊",
+        accent:"#818CF8", accent2:"#A5B4FC", category:"Este"
+      },
+      {
+        num: afternoonTasks.length + 8, time:"20:00", emoji:"⭐", title:"Kérhetsz anyától egy csillagot!",
+        desc:"Ha szépen végigcsináltad a napot, menj oda anyához és kérj tőle egy csillagot! Megérdemelted! 🥰",
+        accent:"#FFD700", accent2:"#FFF176", category:"Jutalom", starCard:true
+      }
+    ] : [
+      {
+        num: afternoonTasks.length + 7, time:"18:00 – 19:00", emoji:"🌙", title:"Esti rutin",
+        desc:"Vacsora, fürdés, pizsamába bújás. Mesélj el valakinek egy dolgot, ami ma tetszett! 😊",
+        accent:"#818CF8", accent2:"#A5B4FC", category:"Este"
+      },
+      {
+        num: afternoonTasks.length + 8, time:"19:00 – 19:30", emoji:"📖", title:"Esti olvasás + álomba merülés",
+        desc:"Egy rövid mese vagy könyv – magadnak vagy valakivel együtt. Majd édes álmok! 🌟",
+        accent:"#C084FC", accent2:"#E9D5FF", category:"Lefekvés"
+      },
+      {
+        num: afternoonTasks.length + 9, time:"19:30", emoji:"⭐", title:"Kérhetsz anyától egy csillagot!",
+        desc:"Ha szépen végigcsináltad a napot, menj oda anyához és kérj tőle egy csillagot! Megérdemelted! 🥰",
+        accent:"#FFD700", accent2:"#FFF176", category:"Jutalom", starCard:true
+      }
+    ])
   ];
 }
 
