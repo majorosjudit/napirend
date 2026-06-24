@@ -325,20 +325,20 @@ function buildTasks(d) {
   // Afternoon block: swimming replaces free play slot on Wed & Fri
   const afternoonTasks = hasSwim ? [
     {
-      num:7, time:"13:00 – 14:30", emoji:"🌞", title:"Szabad játék (kint / bent)",
+      num:7, time:"13:00 – 15:00", emoji:"🌞", title:"Szabad játék (kint / bent)",
       desc:"Ha süt a nap: kint játszol, kerékpározol 🌤️. Ha esik az eső: társasjáték, lego, kirakó 🌧️.",
       accent:"#FF6B6B", accent2:"#FF9E9E", category:"Játék", weather:"both"
     },
     {
-      num:8, time:"14:30 – 15:00", emoji:"🏊", title:"Indulás úszásoktatásra",
-      desc:"Elő az úszófelszerelés! Fürdőruha, törölköző, sapka – mindent pakoljatok be és induljatok el időben! 🌊",
-      accent:"#4CC9F0", accent2:"#90E0FF", category:"Úszás",
-      special:"🏊 Úszásoktatás délután"
+      num:8, time:"15:00 – 16:30", emoji:"🌿", title:"Kódolás / alkotás",
+      desc:"Scratch, Hour of Code, rajzos programozás vagy kerti megfigyelés – úszás előtt!",
+      accent:"#06D6A0", accent2:"#34EEB4", category:"Kódolás", weather:"both"
     },
     {
-      num:9, time:"15:00 – 16:30", emoji:"🌿", title:"Kódolás / alkotás",
-      desc:"Úszás után: Scratch, Hour of Code, rajzos programozás vagy kerti megfigyelés.",
-      accent:"#06D6A0", accent2:"#34EEB4", category:"Kódolás", weather:"both"
+      num:9, time:"16:30 – 17:00", emoji:"🏊", title:"Indulás úszásoktatásra",
+      desc:"Elő az úszófelszerelés! Fürdőruha, törölköző, sapka – mindent pakoljatok be és induljatok el időben! 🌊",
+      accent:"#4CC9F0", accent2:"#90E0FF", category:"Úszás",
+      special:"🏊 Úszásoktatás: 17:00"
     }
   ] : [
     {
@@ -648,6 +648,33 @@ function resetAll() {
     renderDayNav();
   }
 }
+
+// ── Pre-seed fixed days ───────────────────────────────────
+// June 21 and June 22 are always shown as fully completed
+(function seedFixedDays() {
+  const year = realToday.getFullYear();
+
+  // June 22 – minden pipa
+  const jun22 = new Date(year, 5, 22);
+  if (!localStorage.getItem(taskKey(jun22))) {
+    const tasks22 = buildTasks(jun22);
+    const s = {};
+    tasks22.forEach((t, i) => { if (!t.starCard) s[i] = true; });
+    saveTaskState(jun22, s);
+  }
+
+  // June 23 – minden pipa + megjegyzés: Eszter mami
+  const jun23 = new Date(year, 5, 23);
+  if (!localStorage.getItem(taskKey(jun23))) {
+    const tasks23 = buildTasks(jun23);
+    const s = {};
+    tasks23.forEach((t, i) => { if (!t.starCard) s[i] = true; });
+    saveTaskState(jun23, s);
+  }
+  if (!localStorage.getItem(specialKey(jun23))) {
+    saveSpecialState(jun23, { tag: null, text: 'Eszter mami' });
+  }
+})();
 
 // ── Init ──────────────────────────────────────────────────
 // Set navOffset so today is visible
