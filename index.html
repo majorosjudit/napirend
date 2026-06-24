@@ -7,16 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --sky: #FFF8F0;
-    --sun: #FFBE0B;
-    --coral: #FF6B6B;
-    --mint: #06D6A0;
-    --lavender: #A78BFA;
-    --peach: #FFB347;
-    --rose: #FF85A1;
-    --blue: #4CC9F0;
-    --card-bg: #FFFFFF;
-    --shadow: rgba(0,0,0,0.08);
+    --sky: #FFF8F0; --sun: #FFBE0B; --coral: #FF6B6B; --mint: #06D6A0;
+    --lavender: #A78BFA; --peach: #FFB347; --rose: #FF85A1; --blue: #4CC9F0;
+    --card-bg: #FFFFFF; --shadow: rgba(0,0,0,0.08);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -25,157 +18,118 @@
       radial-gradient(circle at 10% 20%, rgba(255,190,11,0.12) 0%, transparent 40%),
       radial-gradient(circle at 90% 80%, rgba(76,201,240,0.12) 0%, transparent 40%),
       radial-gradient(circle at 50% 50%, rgba(167,139,250,0.06) 0%, transparent 60%);
-    min-height: 100vh;
-    font-family: 'Nunito', sans-serif;
-    padding: 1.5rem 1rem 5rem;
+    min-height: 100vh; font-family: 'Nunito', sans-serif; padding: 1.5rem 1rem 5rem;
   }
-  header { text-align: center; margin-bottom: 1.5rem; }
-  .sun-icon { font-size: 3rem; display: block; animation: spin 20s linear infinite; margin-bottom: 0.2rem; }
+  header { text-align: center; margin-bottom: 1.2rem; }
+  .sun-icon { font-size: 2.8rem; display: block; animation: spin 20s linear infinite; margin-bottom: 0.2rem; }
   @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  h1 { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: clamp(1.8rem, 6vw, 2.8rem); color: #3D2B1F; line-height: 1.1; }
-  .subtitle { font-size: 0.95rem; color: #7C6A5E; margin-top: 0.3rem; font-weight: 600; }
+  h1 { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: clamp(1.7rem, 6vw, 2.6rem); color: #3D2B1F; line-height: 1.1; }
+  .subtitle { font-size: 0.9rem; color: #7C6A5E; margin-top: 0.25rem; font-weight: 600; }
+
+  /* ── Day navigator ── */
+  .day-nav {
+    max-width: 680px; margin: 0 auto 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    background: white; border-radius: 20px; padding: 0.6rem 0.8rem;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  .nav-btn {
+    width: 36px; height: 36px; border-radius: 50%; border: 2px solid #EEE;
+    background: white; font-size: 1rem; cursor: pointer; display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.2s; color: #7C6A5E; font-weight: 700;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: var(--sun); color: #B07D00; background: #FFFBF0; }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .day-scroll {
+    flex: 1; display: flex; gap: 0.4rem; overflow-x: auto;
+    scrollbar-width: none; -ms-overflow-style: none; padding: 0.1rem 0;
+  }
+  .day-scroll::-webkit-scrollbar { display: none; }
+  .day-pill {
+    flex-shrink: 0; padding: 0.35rem 0.75rem; border-radius: 30px;
+    border: 2px solid #EEE; background: white; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-size: 0.75rem; font-weight: 700;
+    color: #7C6A5E; transition: all 0.18s; white-space: nowrap;
+    display: flex; flex-direction: column; align-items: center; gap: 1px;
+  }
+  .day-pill:hover { border-color: var(--sun); color: #B07D00; }
+  .day-pill.today { background: #FFBE0B; border-color: #FFBE0B; color: #3D2B1F; }
+  .day-pill.selected:not(.today) { background: #FFF3CD; border-color: #FFD966; color: #7A5500; }
+  .day-pill .pill-date { font-size: 0.65rem; opacity: 0.7; }
+  .day-pill .pill-pct { font-size: 0.6rem; margin-top: 1px; }
+  .day-pill.camp { background: #F3E8FF; border-color: #C084FC; color: #6B21A8; }
+  .day-pill.future { opacity: 0.4; cursor: default; }
+  .day-pill.future:hover { border-color: #EEE; color: #7C6A5E; }
+
+  /* viewing past day banner */
+  .past-banner {
+    max-width: 680px; margin: 0 auto 1rem;
+    background: #FFF9F0; border: 2px solid #FFD966; border-radius: 16px;
+    padding: 0.7rem 1rem; display: none; align-items: center; gap: 0.6rem;
+  }
+  .past-banner.show { display: flex; }
+  .past-banner-text { font-size: 0.85rem; font-weight: 700; color: #7A5500; flex: 1; }
+  .back-today-btn {
+    padding: 0.3rem 0.8rem; border-radius: 20px; border: 2px solid #FFBE0B;
+    background: #FFBE0B; font-size: 0.78rem; font-weight: 700; color: #3D2B1F;
+    cursor: pointer; white-space: nowrap;
+  }
 
   /* Summer progress bar */
   .summer-progress-wrap {
-    max-width: 680px;
-    margin: 0 auto 1rem;
+    max-width: 680px; margin: 0 auto 1rem;
     background: linear-gradient(135deg, #FFF3CD, #FFE8A3);
-    border-radius: 20px;
-    padding: 0.9rem 1.2rem;
-    box-shadow: 0 2px 12px rgba(255,190,11,0.2);
-    border: 2px solid rgba(255,190,11,0.3);
+    border-radius: 20px; padding: 0.9rem 1.2rem;
+    box-shadow: 0 2px 12px rgba(255,190,11,0.2); border: 2px solid rgba(255,190,11,0.3);
   }
-  .summer-progress-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-  }
-  .summer-label {
-    font-family: 'Baloo 2', cursive;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: #7A5500;
-  }
-  .summer-days {
-    font-family: 'Baloo 2', cursive;
-    font-weight: 800;
-    font-size: 0.9rem;
-    color: #B07D00;
-  }
-  .summer-bar-outer {
-    height: 14px;
-    background: rgba(255,255,255,0.6);
-    border-radius: 30px;
-    overflow: hidden;
-  }
-  .summer-bar-inner {
-    height: 100%;
-    border-radius: 30px;
-    background: linear-gradient(90deg, #FFBE0B, #FF6B6B, #A78BFA);
-    transition: width 0.6s ease;
-  }
-  .summer-icons {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    margin-top: 0.3rem;
-    color: #9A7200;
-    font-weight: 600;
-  }
+  .summer-progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+  .summer-label { font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 0.85rem; color: #7A5500; }
+  .summer-days { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 0.9rem; color: #B07D00; }
+  .summer-bar-outer { height: 14px; background: rgba(255,255,255,0.6); border-radius: 30px; overflow: hidden; }
+  .summer-bar-inner { height: 100%; border-radius: 30px; background: linear-gradient(90deg, #FFBE0B, #FF6B6B, #A78BFA); transition: width 0.6s ease; }
+  .summer-icons { display: flex; justify-content: space-between; font-size: 0.75rem; margin-top: 0.3rem; color: #9A7200; font-weight: 600; }
 
-  /* Special day banner */
+  /* Special day card */
   .special-day-card {
-    max-width: 680px;
-    margin: 0 auto 1rem;
-    background: white;
-    border-radius: 20px;
-    padding: 1rem 1.2rem;
-    box-shadow: 0 4px 16px var(--shadow);
-    border: 2.5px solid #FFD966;
+    max-width: 680px; margin: 0 auto 1rem; background: white;
+    border-radius: 20px; padding: 1rem 1.2rem;
+    box-shadow: 0 4px 16px var(--shadow); border: 2.5px solid #FFD966;
   }
-  .special-day-header {
-    font-family: 'Baloo 2', cursive;
-    font-weight: 700;
-    font-size: 1rem;
-    color: #3D2B1F;
-    margin-bottom: 0.6rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .special-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
+  .special-day-card.readonly { background: #FFFBF0; pointer-events: none; }
+  .special-day-header { font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 1rem; color: #3D2B1F; margin-bottom: 0.6rem; }
+  .special-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .special-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 0.9rem;
-    border-radius: 30px;
-    border: 2px solid #EEE;
-    background: white;
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: #7C6A5E;
-    cursor: pointer;
-    transition: all 0.2s;
+    display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.9rem;
+    border-radius: 30px; border: 2px solid #EEE; background: white;
+    font-family: 'Nunito', sans-serif; font-size: 0.82rem; font-weight: 700;
+    color: #7C6A5E; cursor: pointer; transition: all 0.2s;
   }
   .special-btn:hover { border-color: var(--sun); color: #B07D00; }
   .special-btn.active { background: #FFBE0B; border-color: #FFBE0B; color: #3D2B1F; }
   .special-input {
-    flex: 1;
-    min-width: 140px;
-    padding: 0.4rem 0.8rem;
-    border-radius: 30px;
-    border: 2px solid #EEE;
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #3D2B1F;
-    outline: none;
-    transition: border 0.2s;
+    flex: 1; min-width: 140px; padding: 0.4rem 0.8rem; border-radius: 30px;
+    border: 2px solid #EEE; font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem; font-weight: 600; color: #3D2B1F; outline: none; transition: border 0.2s;
   }
   .special-input:focus { border-color: var(--sun); }
+  .special-input:read-only { background: #F9F6F2; color: #9A7200; }
 
   /* Dance camp banner */
   .dancetabor-banner {
-    max-width: 680px;
-    margin: 0 auto 1rem;
+    max-width: 680px; margin: 0 auto 1rem;
     background: linear-gradient(135deg, #FFE4F0, #F3E8FF);
-    border-radius: 20px;
-    padding: 1.1rem 1.4rem;
-    box-shadow: 0 4px 16px rgba(167,139,250,0.2);
-    border: 2.5px solid #C084FC;
-    text-align: center;
+    border-radius: 20px; padding: 1.1rem 1.4rem;
+    box-shadow: 0 4px 16px rgba(167,139,250,0.2); border: 2.5px solid #C084FC; text-align: center;
   }
-  .dancetabor-banner h2 {
-    font-family: 'Baloo 2', cursive;
-    font-weight: 800;
-    font-size: 1.4rem;
-    color: #6B21A8;
-    margin-bottom: 0.3rem;
-  }
-  .dancetabor-banner p {
-    font-size: 0.9rem;
-    color: #7C3AAC;
-    font-weight: 600;
-  }
+  .dancetabor-banner h2 { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.4rem; color: #6B21A8; margin-bottom: 0.3rem; }
+  .dancetabor-banner p { font-size: 0.9rem; color: #7C3AAC; font-weight: 600; }
 
   /* Daily progress */
   .progress-bar-wrap {
-    max-width: 680px;
-    margin: 0 auto 1rem;
-    background: white;
-    border-radius: 30px;
-    padding: 0.7rem 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    box-shadow: 0 2px 12px var(--shadow);
+    max-width: 680px; margin: 0 auto 1rem; background: white;
+    border-radius: 30px; padding: 0.7rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; box-shadow: 0 2px 12px var(--shadow);
   }
   .progress-label { font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 0.85rem; color: #3D2B1F; white-space: nowrap; }
   .bar-outer { flex: 1; height: 12px; background: #F0EBE8; border-radius: 30px; overflow: hidden; }
@@ -185,23 +139,16 @@
   /* Task cards */
   .checklist { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.85rem; }
   .task-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 1rem 1.2rem 1rem 1rem;
+    background: var(--card-bg); border-radius: 20px; padding: 1rem 1.2rem 1rem 1rem;
     display: flex; align-items: flex-start; gap: 1rem;
-    box-shadow: 0 4px 16px var(--shadow);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
-    position: relative; overflow: hidden;
-    border: 2.5px solid transparent;
+    box-shadow: 0 4px 16px var(--shadow); transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer; position: relative; overflow: hidden; border: 2.5px solid transparent;
   }
-  .task-card::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
-    border-radius: 20px 0 0 20px; background: var(--accent);
-  }
+  .task-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; border-radius: 20px 0 0 20px; background: var(--accent); }
   .task-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
   .task-card.done { opacity: 0.6; }
   .task-card.done .task-title { text-decoration: line-through; color: #AAA; }
+  .task-card.readonly-card { cursor: default; pointer-events: none; }
   .emoji-badge {
     width: 52px; height: 52px; border-radius: 14px;
     background: linear-gradient(135deg, var(--accent), var(--accent2, var(--accent)));
@@ -218,20 +165,9 @@
     transition: all 0.2s ease; margin-top: 12px; background: white;
   }
   .task-card.done .checkbox { background: var(--accent); border-color: var(--accent); }
-  .checkbox::after {
-    content: ''; display: none; width: 6px; height: 11px;
-    border: 2.5px solid white; border-top: none; border-left: none;
-    transform: rotate(45deg) translateY(-1px);
-  }
+  .checkbox::after { content: ''; display: none; width: 6px; height: 11px; border: 2.5px solid white; border-top: none; border-left: none; transform: rotate(45deg) translateY(-1px); }
   .task-card.done .checkbox::after { display: block; }
-
-  /* Star card */
-  .star-card {
-    background: linear-gradient(135deg, #FFF9E6, #FFF0C2);
-    border: 2.5px solid #FFD700;
-    cursor: default;
-  }
-  .star-card:hover { transform: none; }
+  .star-card { background: linear-gradient(135deg, #FFF9E6, #FFF0C2); border: 2.5px solid #FFD700 !important; cursor: default; pointer-events: none; }
   .star-card .task-title { color: #7A5500; }
   .star-card .task-desc { color: #9A7200; }
 
@@ -240,22 +176,18 @@
   .badge-sun { background: rgba(255,190,11,0.15); color: #B07D00; }
   .badge-rain { background: rgba(76,201,240,0.15); color: #1A7FA0; }
   .badge-special { background: rgba(255,133,161,0.18); color: #C0336A; }
+  .badge-swim { background: rgba(76,201,240,0.2); color: #0066A0; }
 
-  /* Stars & bottom */
   .stars-container { text-align: center; margin-top: 1.2rem; font-size: 1.6rem; min-height: 2.2rem; transition: all 0.3s; }
   .reset-btn {
-    max-width: 680px; margin: 1.2rem auto 0; display: block;
-    background: none; border: 2px solid #DDD; border-radius: 30px;
-    padding: 0.5rem 1.5rem; font-family: 'Nunito', sans-serif;
-    font-size: 0.85rem; font-weight: 700; color: #AAA; cursor: pointer; transition: all 0.2s;
+    max-width: 680px; margin: 1.2rem auto 0; display: block; background: none;
+    border: 2px solid #DDD; border-radius: 30px; padding: 0.5rem 1.5rem;
+    font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700;
+    color: #AAA; cursor: pointer; transition: all 0.2s;
   }
   .reset-btn:hover { border-color: var(--coral); color: var(--coral); }
 
-  @keyframes pop {
-    0% { transform: scale(0.5); opacity: 0; }
-    70% { transform: scale(1.2); }
-    100% { transform: scale(1); opacity: 1; }
-  }
+  @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 70% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
   .pop { animation: pop 0.3s ease; }
 </style>
 </head>
@@ -267,35 +199,46 @@
   <p class="subtitle" id="subtitle">Pipáld ki a mai feladatokat! 🌸</p>
 </header>
 
+<!-- Day navigator -->
+<div class="day-nav">
+  <button class="nav-btn" id="navLeft" onclick="shiftView(-7)">◀</button>
+  <div class="day-scroll" id="dayScroll"></div>
+  <button class="nav-btn" id="navRight" onclick="shiftView(7)">▶</button>
+</div>
+
+<!-- Past day banner -->
+<div class="past-banner" id="pastBanner">
+  <span class="past-banner-text" id="pastBannerText">📅 Visszanézés – ez a nap már elmúlt</span>
+  <button class="back-today-btn" onclick="goToday()">↩ Ma</button>
+</div>
+
 <!-- Summer progress -->
 <div class="summer-progress-wrap">
   <div class="summer-progress-top">
     <span class="summer-label">🌴 Nyári szünet haladása</span>
     <span class="summer-days" id="summerDaysLabel"></span>
   </div>
-  <div class="summer-bar-outer">
-    <div class="summer-bar-inner" id="summerBarInner" style="width:0%"></div>
-  </div>
+  <div class="summer-bar-outer"><div class="summer-bar-inner" id="summerBarInner" style="width:0%"></div></div>
   <div class="summer-icons">
     <span>🎒 jún. 22.</span>
-    <span id="summerMidLabel"></span>
+    <span>🏊 aug. 1.</span>
     <span>🍂 szept. 1.</span>
   </div>
 </div>
 
-<!-- Special day toggle -->
+<!-- Special day card -->
 <div class="special-day-card" id="specialDayCard">
-  <div class="special-day-header">🌟 Ma különleges nap?</div>
-  <div class="special-options">
+  <div class="special-day-header" id="specialDayHeader">🌟 Ma különleges nap?</div>
+  <div class="special-options" id="specialOptions">
     <button class="special-btn" onclick="toggleSpecial('nyaralas')" id="btn-nyaralas">🏖️ Nyaralás</button>
-    <button class="special-btn" onclick="toggleSpecial('kirándulás')" id="btn-kirándulás">🏔️ Kirándulás</button>
-    <button class="special-btn" onclick="toggleSpecial('vendég')" id="btn-vendég">👨‍👩‍👧 Vendég</button>
-    <button class="special-btn" onclick="toggleSpecial('egyéb')" id="btn-egyéb">✨ Egyéb</button>
+    <button class="special-btn" onclick="toggleSpecial('kirandulas')" id="btn-kirandulas">🏔️ Kirándulás</button>
+    <button class="special-btn" onclick="toggleSpecial('vendeg')" id="btn-vendeg">👨‍👩‍👧 Vendég</button>
+    <button class="special-btn" onclick="toggleSpecial('egyeb')" id="btn-egyeb">✨ Egyéb</button>
     <input class="special-input" type="text" id="specialText" placeholder="Mi történik ma?" oninput="saveSpecialText()" />
   </div>
 </div>
 
-<!-- Dance camp banner (shown only during camp) -->
+<!-- Dance camp banner -->
 <div class="dancetabor-banner" id="danceBanner" style="display:none">
   <h2>💃 Tánctábor hete! 🕺</h2>
   <p>Június 29 – Július 3 között tánctábor van – ma a szokásos napi rutin szünetel. Jó szórakozást!</p>
@@ -303,159 +246,257 @@
 
 <!-- Daily progress -->
 <div class="progress-bar-wrap">
-  <span class="progress-label">Mai haladás</span>
+  <span class="progress-label" id="progressLabel">Mai haladás</span>
   <div class="bar-outer"><div class="bar-inner" id="barInner"></div></div>
   <span class="progress-pct" id="pctLabel">0%</span>
 </div>
 
 <div class="checklist" id="checklist"></div>
 <div class="stars-container" id="stars"></div>
-<button class="reset-btn" onclick="resetAll()">↺ Új nap – mindent visszaállít</button>
+<button class="reset-btn" id="resetBtn" onclick="resetAll()">↺ Új nap – mindent visszaállít</button>
 
 <script>
-// ── Date helpers ──────────────────────────────────────────
-const today = new Date();
-const dow = today.getDay(); // 0=V,1=H,2=K,3=Sz,4=Cs,5=P,6=Szo
-const isTuesday   = dow === 2;
-const isWednesday = dow === 3;
-const DAYS_HU = ['vasárnap','hétfő','kedd','szerda','csütörtök','péntek','szombat'];
-const todayKey = today.toISOString().slice(0,10);
+// ── Constants ─────────────────────────────────────────────
+const SUMMER_START = new Date(new Date().getFullYear(), 5, 22); // June 22
+const SUMMER_END   = new Date(new Date().getFullYear(), 8, 1);  // Sept 1
+const DAYS_HU      = ['vasárnap','hétfő','kedd','szerda','csütörtök','péntek','szombat'];
+const MONTHS_HU    = ['jan','feb','már','ápr','máj','jún','júl','aug','szept','okt','nov','dec'];
 
-// Dance camp: June 29 – July 3 (year-agnostic check)
-const mo = today.getMonth(); // 0-based
-const da = today.getDate();
-const isDanceCamp = (mo === 5 && da >= 29) || (mo === 6 && da <= 3);
+// ── Date utilities ────────────────────────────────────────
+function dateKey(d)  { return d.toISOString().slice(0,10); }
+function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate()+n); return r; }
+function isSameDay(a,b) { return dateKey(a) === dateKey(b); }
+function isDanceCampDate(d) {
+  const m = d.getMonth(), da = d.getDate();
+  return (m === 5 && da >= 29) || (m === 6 && da <= 3);
+}
+function isFuture(d) { const t = new Date(); t.setHours(0,0,0,0); return d > t; }
+function isInSummer(d) { return d >= SUMMER_START && d < SUMMER_END; }
 
-// Summer progress: June 22 → Sept 1
-function summerProgress() {
-  const year = today.getFullYear();
-  const start = new Date(year, 5, 22);  // June 22
-  const end   = new Date(year, 8, 1);   // Sept 1
-  const total = end - start;
-  const elapsed = Math.max(0, Math.min(today - start, total));
-  const pct = Math.round((elapsed / total) * 100);
-  const daysLeft = Math.max(0, Math.ceil((end - today) / 86400000));
-  const daysDone = Math.max(0, Math.floor((today - start) / 86400000));
-  return { pct, daysLeft, daysDone };
+// ── State ─────────────────────────────────────────────────
+const realToday = (() => { const d = new Date(); d.setHours(0,0,0,0); return d; })();
+let viewDate = new Date(realToday); // which day we're showing
+let navOffset = 0; // scroll window offset in days (multiples of 7)
+
+function taskKey(d)    { return 'napirend_tasks_'   + dateKey(d); }
+function specialKey(d) { return 'napirend_special_' + dateKey(d); }
+function loadTaskState(d)   { try { return JSON.parse(localStorage.getItem(taskKey(d)))    || {}; } catch { return {}; } }
+function loadSpecialState(d){ try { return JSON.parse(localStorage.getItem(specialKey(d))) || { tag: null, text: '' }; } catch { return { tag: null, text: '' }; } }
+function saveTaskState(d,s)   { try { localStorage.setItem(taskKey(d),    JSON.stringify(s)); } catch {} }
+function saveSpecialState(d,s){ try { localStorage.setItem(specialKey(d), JSON.stringify(s)); } catch {} }
+function getDayPct(d) {
+  if (isDanceCampDate(d)) return null;
+  const s = loadTaskState(d);
+  const checkable = buildTasks(d).filter(t => !t.starCard);
+  const done = checkable.filter((_, i) => !!s[i]).length;
+  return checkable.length ? Math.round(done / checkable.length * 100) : 0;
 }
 
-// ── Storage ───────────────────────────────────────────────
-const STORAGE_KEY   = 'napirend_tasks_' + todayKey;
-const SPECIAL_KEY   = 'napirend_special_' + todayKey;
+// ── Task builder (day-aware) ──────────────────────────────
+function buildTasks(d) {
+  const dow = d.getDay();
+  const isTue = dow === 2;
+  const isWed = dow === 3;
+  const isFri = dow === 5;
+  const hasSwim = isWed || isFri; // swimming on Wed & Fri afternoon
 
-function loadState()   { try { return JSON.parse(localStorage.getItem(STORAGE_KEY))  || {}; } catch { return {}; } }
-function saveState(s)  { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch {} }
-function loadSpecial() { try { return JSON.parse(localStorage.getItem(SPECIAL_KEY)) || { tag: null, text: '' }; } catch { return { tag: null, text: '' }; } }
-function saveSpecial(s){ try { localStorage.setItem(SPECIAL_KEY, JSON.stringify(s)); } catch {} }
-
-let state   = loadState();
-let special = loadSpecial();
-
-// ── Task definitions ──────────────────────────────────────
-function getMorningMove() {
-  if (isTuesday) return {
-    emoji: "🧘", title: "Jóga anyával 💛",
-    desc: "Jóganap anyával! 🕗 Indulás 7:45-kor, hogy 8:00-ra ott legyetek. Légzés, nyújtás, egyensúly – közösen!",
-    special: "👩‍👧 Indulás: 7:45 · Jóga: 8:00–9:00", time: "7:45 – 9:00"
-  };
-  if (isWednesday) return {
-    emoji: "🤸", title: "Torna anyával 💪",
-    desc: "Tornanap anyával! 🕖 Indulás 7:15-kor, hogy 7:30-ra ott legyetek. Ugrálós, erős, vidám közös mozgás!",
-    special: "👩‍👧 Indulás: 7:15 · Torna: 7:30–9:00", time: "7:15 – 9:00"
-  };
-  return {
-    emoji: "🧘", title: "Friss levegő & mozgás",
-    desc: "Rövid séta az udvaron, kertben, vagy 10 perces torna bent. Ébredjen fel a tested!",
-    special: null, time: "7:15 – 7:45"
-  };
-}
-
-const move = getMorningMove();
-const prepEnd   = isTuesday ? "7:45" : isWednesday ? "7:15" : "7:15";
-const studyStart = (isTuesday || isWednesday) ? "9:00" : "7:45";
-
-const tasks = [
-  {
-    num: 1, time: "6:30 – " + prepEnd, emoji: "🌅", title: "Reggeli készülődés",
-    desc: isTuesday
-      ? "Felkelés, fogmosás, öltözés, reggeli – és 7:45-kor indulunk jógára anyával! 🧘"
-      : isWednesday
-      ? "Felkelés, fogmosás, öltözés, reggeli – és 7:15-kor indulunk tornára anyával! 🤸"
-      : "Felkelés, fogmosás, arc megmosása, öltözés, reggeli elfogyasztása. Szép lassan, jó kedvvel!",
-    accent: "#FFBE0B", accent2: "#FFD966", category: "Reggel"
-  },
-  {
-    num: 2, time: move.time, emoji: move.emoji, title: move.title, desc: move.desc,
-    accent: "#06D6A0", accent2: "#5EEEC0", category: "Mozgás", special: move.special
-  },
-  {
-    num: 3, time: studyStart + " – 9:45", emoji: "📚", title: "Iskolai ismétlés",
-    desc: "Egy kis matek, olvasás vagy írás – válassz egyet! Nem házi feladat, csak játékos átismétlés.",
-    accent: "#4CC9F0", accent2: "#90E0FF", category: "Tanulás"
-  },
-  {
-    num: 4, time: "9:45 – 10:30", emoji: "🇩🇪", title: "Napi némettanulás",
-    desc: "Egy rövid német mese meghallgatása vagy elolvasása + 5 új szó megtanulása. Deutsch macht Spaß! 🎉",
-    accent: "#A78BFA", accent2: "#C4B5FD", category: "Nyelv"
-  },
-  {
-    num: 5, time: "10:30 – 12:00", emoji: "🎨", title: "Kreatív alkotás",
-    desc: "Rajzolás, festés, gyurmázás, origami, kézimunka – bármit, amit a szíved kíván!",
-    accent: "#FF85A1", accent2: "#FFB3C6", category: "Kreativitás", weather: "both"
-  },
-  {
-    num: 6, time: "12:00 – 13:00", emoji: "🍽️", title: "Ebéd + pihenő",
-    desc: "Lassan egyél, kóstolj meg mindent! Utána 20-30 perc nyugalom – könyv, hallgatás, szundikálás.",
-    accent: "#FFB347", accent2: "#FFD280", category: "Pihenő"
-  },
-  {
-    num: 7, time: "13:00 – 15:00", emoji: "🌞", title: "Szabad játék (kint / bent)",
-    desc: "Ha süt a nap: kint játszol, kerékpározol, vizezels 🌤️. Ha esik az eső: társasjáték, lego, kirakó 🌧️.",
-    accent: "#FF6B6B", accent2: "#FF9E9E", category: "Játék", weather: "both"
-  },
-  {
-    num: 8, time: "15:00 – 16:00", emoji: "🌿", title: "Szabadtéri kódolás / természet",
-    desc: "Jó időben: kerti akadálypálya, természetfigyelés, rovarkutatás. Rossz időben: Scratch, Hour of Code vagy rajzos programozás.",
-    accent: "#06D6A0", accent2: "#34EEB4", category: "Kódolás", weather: "both"
-  },
-  {
-    num: 9, time: "18:00 – 19:00", emoji: "🌙", title: "Esti rutin",
-    desc: "Vacsora, fürdés, pizsamába bújás. Mesélj el valakinek egy dolgot, ami ma tetszett! 😊",
-    accent: "#818CF8", accent2: "#A5B4FC", category: "Este"
-  },
-  {
-    num: 10, time: "19:00 – 19:30", emoji: "📖", title: "Esti olvasás + álomba merülés",
-    desc: "Egy rövid mese vagy könyv – magadnak vagy valakivel együtt. Majd édes álmok! 🌟",
-    accent: "#C084FC", accent2: "#E9D5FF", category: "Lefekvés"
-  },
-  {
-    num: 11, time: "19:30", emoji: "⭐", title: "Kérhetsz anyától egy csillagot!",
-    desc: "Ha szépen végigcsináltad a napot, menj oda anyához és kérj tőle egy csillagot! Megérdemelted! 🥰",
-    accent: "#FFD700", accent2: "#FFF176", category: "Jutalom", starCard: true
+  function getMorningMove() {
+    if (isTue) return {
+      emoji:"🧘", title:"Jóga anyával 💛",
+      desc:"Jóganap anyával! 🕗 Indulás 7:45-kor, hogy 8:00-ra ott legyetek. Légzés, nyújtás, egyensúly!",
+      special:"👩‍👧 Indulás: 7:45 · Jóga: 8:00–9:00", time:"7:45 – 9:00"
+    };
+    if (isWed) return {
+      emoji:"🤸", title:"Torna anyával 💪",
+      desc:"Tornanap anyával! 🕖 Indulás 7:15-kor, hogy 7:30-ra ott legyetek. Ugrálós, erős, vidám közös mozgás!",
+      special:"👩‍👧 Indulás: 7:15 · Torna: 7:30–9:00", time:"7:15 – 9:00"
+    };
+    return {
+      emoji:"🧘", title:"Friss levegő & mozgás",
+      desc:"Rövid séta az udvaron, kertben, vagy 10 perces torna bent. Ébredjen fel a tested!",
+      special:null, time:"7:15 – 7:45"
+    };
   }
-];
 
-// ── Render helpers ────────────────────────────────────────
+  const move = getMorningMove();
+  const prepEnd    = isTue ? "7:45" : isWed ? "7:15" : "7:15";
+  const studyStart = (isTue || isWed) ? "9:00" : "7:45";
+
+  // Afternoon block: swimming replaces free play slot on Wed & Fri
+  const afternoonTasks = hasSwim ? [
+    {
+      num:7, time:"13:00 – 14:30", emoji:"🌞", title:"Szabad játék (kint / bent)",
+      desc:"Ha süt a nap: kint játszol, kerékpározol 🌤️. Ha esik az eső: társasjáték, lego, kirakó 🌧️.",
+      accent:"#FF6B6B", accent2:"#FF9E9E", category:"Játék", weather:"both"
+    },
+    {
+      num:8, time:"14:30 – 15:00", emoji:"🏊", title:"Indulás úszásoktatásra",
+      desc:"Elő az úszófelszerelés! Fürdőruha, törölköző, sapka – mindent pakoljatok be és induljatok el időben! 🌊",
+      accent:"#4CC9F0", accent2:"#90E0FF", category:"Úszás",
+      special:"🏊 Úszásoktatás délután"
+    },
+    {
+      num:9, time:"15:00 – 16:30", emoji:"🌿", title:"Kódolás / alkotás",
+      desc:"Úszás után: Scratch, Hour of Code, rajzos programozás vagy kerti megfigyelés.",
+      accent:"#06D6A0", accent2:"#34EEB4", category:"Kódolás", weather:"both"
+    }
+  ] : [
+    {
+      num:7, time:"13:00 – 15:00", emoji:"🌞", title:"Szabad játék (kint / bent)",
+      desc:"Ha süt a nap: kint játszol, kerékpározol, vizezels 🌤️. Ha esik az eső: társasjáték, lego, kirakó 🌧️.",
+      accent:"#FF6B6B", accent2:"#FF9E9E", category:"Játék", weather:"both"
+    },
+    {
+      num:8, time:"15:00 – 16:00", emoji:"🌿", title:"Szabadtéri kódolás / természet",
+      desc:"Jó időben: kerti akadálypálya, természetfigyelés, rovarkutatás. Rossz időben: Scratch, Hour of Code.",
+      accent:"#06D6A0", accent2:"#34EEB4", category:"Kódolás", weather:"both"
+    }
+  ];
+
+  return [
+    {
+      num:1, time:"6:30 – "+prepEnd, emoji:"🌅", title:"Reggeli készülődés",
+      desc: isTue
+        ? "Felkelés, fogmosás, öltözés, reggeli – és 7:45-kor indulunk jógára anyával! 🧘"
+        : isWed
+        ? "Felkelés, fogmosás, öltözés, reggeli – és 7:15-kor indulunk tornára anyával! 🤸"
+        : "Felkelés, fogmosás, arc megmosása, öltözés, reggeli. Szép lassan, jó kedvvel!",
+      accent:"#FFBE0B", accent2:"#FFD966", category:"Reggel"
+    },
+    {
+      num:2, time:move.time, emoji:move.emoji, title:move.title, desc:move.desc,
+      accent:"#06D6A0", accent2:"#5EEEC0", category:"Mozgás", special:move.special
+    },
+    {
+      num:3, time:studyStart+" – 9:45", emoji:"📚", title:"Iskolai ismétlés",
+      desc:"Egy kis matek, olvasás vagy írás – válassz egyet! Játékos átismétlés.",
+      accent:"#4CC9F0", accent2:"#90E0FF", category:"Tanulás"
+    },
+    {
+      num:4, time:"9:45 – 10:30", emoji:"🇩🇪", title:"Napi némettanulás",
+      desc:"Egy rövid német mese + 5 új szó megtanulása. Deutsch macht Spaß! 🎉",
+      accent:"#A78BFA", accent2:"#C4B5FD", category:"Nyelv"
+    },
+    {
+      num:5, time:"10:30 – 12:00", emoji:"🎨", title:"Kreatív alkotás",
+      desc:"Rajzolás, festés, gyurmázás, origami, kézimunka – bármit, amit a szíved kíván!",
+      accent:"#FF85A1", accent2:"#FFB3C6", category:"Kreativitás", weather:"both"
+    },
+    {
+      num:6, time:"12:00 – 13:00", emoji:"🍽️", title:"Ebéd + pihenő",
+      desc:"Lassan egyél, kóstolj meg mindent! Utána 20-30 perc nyugalom.",
+      accent:"#FFB347", accent2:"#FFD280", category:"Pihenő"
+    },
+    ...afternoonTasks,
+    {
+      num: afternoonTasks.length + 7, time:"18:00 – 19:00", emoji:"🌙", title:"Esti rutin",
+      desc:"Vacsora, fürdés, pizsamába bújás. Mesélj el valakinek egy dolgot, ami ma tetszett! 😊",
+      accent:"#818CF8", accent2:"#A5B4FC", category:"Este"
+    },
+    {
+      num: afternoonTasks.length + 8, time:"19:00 – 19:30", emoji:"📖", title:"Esti olvasás + álomba merülés",
+      desc:"Egy rövid mese vagy könyv – magadnak vagy valakivel együtt. Majd édes álmok! 🌟",
+      accent:"#C084FC", accent2:"#E9D5FF", category:"Lefekvés"
+    },
+    {
+      num: afternoonTasks.length + 9, time:"19:30", emoji:"⭐", title:"Kérhetsz anyától egy csillagot!",
+      desc:"Ha szépen végigcsináltad a napot, menj oda anyához és kérj tőle egy csillagot! Megérdemelted! 🥰",
+      accent:"#FFD700", accent2:"#FFF176", category:"Jutalom", starCard:true
+    }
+  ];
+}
+
+// ── Summer progress ───────────────────────────────────────
 function renderSummerProgress() {
-  const { pct, daysLeft, daysDone } = summerProgress();
+  const total = SUMMER_END - SUMMER_START;
+  const elapsed = Math.max(0, Math.min(realToday - SUMMER_START, total));
+  const pct = Math.round(elapsed / total * 100);
+  const daysLeft = Math.max(0, Math.ceil((SUMMER_END - realToday) / 86400000));
+  const daysDone = Math.max(0, Math.floor((realToday - SUMMER_START) / 86400000));
   document.getElementById('summerBarInner').style.width = pct + '%';
   document.getElementById('summerDaysLabel').textContent = daysDone + ' nap telt el · ' + daysLeft + ' nap van még';
-  // mid label
-  const year = today.getFullYear();
-  document.getElementById('summerMidLabel').textContent = '🏊 aug. 1.';
 }
 
-function renderSpecialControls() {
-  // Restore saved state
+// ── Day navigator ─────────────────────────────────────────
+function renderDayNav() {
+  const scroll = document.getElementById('dayScroll');
+  scroll.innerHTML = '';
+  // Show 14 days window starting from navOffset relative to SUMMER_START
+  const windowStart = addDays(SUMMER_START, navOffset);
+  for (let i = 0; i < 14; i++) {
+    const d = addDays(windowStart, i);
+    if (d >= SUMMER_END) break;
+    const pill = document.createElement('div');
+    const isToday = isSameDay(d, realToday);
+    const isSelected = isSameDay(d, viewDate);
+    const isCamp = isDanceCampDate(d);
+    const future = isFuture(d);
+    pill.className = 'day-pill'
+      + (isToday ? ' today' : '')
+      + (isSelected && !isToday ? ' selected' : '')
+      + (isCamp ? ' camp' : '')
+      + (future ? ' future' : '');
+    const pct = (!future && !isCamp) ? getDayPct(d) : null;
+    const dow = d.getDay();
+    pill.innerHTML = `<span>${DAYS_HU[dow].slice(0,3)}</span><span class="pill-date">${MONTHS_HU[d.getMonth()]} ${d.getDate()}.</span>${pct !== null ? `<span class="pill-pct">${pct}%</span>` : (isCamp ? '<span class="pill-pct">💃</span>' : '')}`;
+    if (!future) pill.onclick = () => selectDay(d);
+    scroll.appendChild(pill);
+    // auto-scroll selected into view
+    if (isSelected) setTimeout(() => pill.scrollIntoView({ block:'nearest', inline:'center', behavior:'smooth' }), 50);
+  }
+  // nav button states
+  document.getElementById('navLeft').disabled  = navOffset <= 0;
+  document.getElementById('navRight').disabled = addDays(SUMMER_START, navOffset + 14) >= SUMMER_END;
+}
+
+function shiftView(n) {
+  navOffset = Math.max(0, navOffset + n);
+  renderDayNav();
+}
+
+function selectDay(d) {
+  viewDate = new Date(d);
+  // ensure selected day is in current window, else shift
+  const windowStart = addDays(SUMMER_START, navOffset);
+  const windowEnd   = addDays(windowStart, 14);
+  if (viewDate < windowStart) navOffset = Math.max(0, Math.floor((viewDate - SUMMER_START) / 86400000));
+  if (viewDate >= windowEnd)  navOffset = Math.floor((viewDate - SUMMER_START) / 86400000);
+  renderDayNav();
+  renderPage();
+}
+
+function goToday() {
+  viewDate = new Date(realToday);
+  navOffset = Math.max(0, Math.floor((realToday - SUMMER_START) / 86400000) - 7);
+  renderDayNav();
+  renderPage();
+}
+
+// ── Special controls ──────────────────────────────────────
+let special = loadSpecialState(viewDate);
+
+function renderSpecialControls(readonly) {
+  special = loadSpecialState(viewDate);
+  const card = document.getElementById('specialDayCard');
+  const header = document.getElementById('specialDayHeader');
+  const input = document.getElementById('specialText');
+  const options = document.getElementById('specialOptions');
+
+  card.classList.toggle('readonly', !!readonly);
+  header.textContent = readonly ? '🌟 Különleges nap volt?' : '🌟 Ma különleges nap?';
+  input.readOnly = !!readonly;
+
+  document.querySelectorAll('.special-btn').forEach(b => b.classList.remove('active'));
   if (special.tag) {
-    document.querySelectorAll('.special-btn').forEach(b => b.classList.remove('active'));
     const btn = document.getElementById('btn-' + special.tag);
     if (btn) btn.classList.add('active');
   }
-  document.getElementById('specialText').value = special.text || '';
+  input.value = special.text || '';
 }
 
 function toggleSpecial(tag) {
+  if (isFuture(viewDate) || !isSameDay(viewDate, realToday)) return;
+  special = loadSpecialState(viewDate);
   if (special.tag === tag) {
     special.tag = null;
     document.getElementById('btn-' + tag).classList.remove('active');
@@ -464,50 +505,88 @@ function toggleSpecial(tag) {
     special.tag = tag;
     document.getElementById('btn-' + tag).classList.add('active');
   }
-  saveSpecial(special);
+  saveSpecialState(viewDate, special);
 }
 
 function saveSpecialText() {
+  if (!isSameDay(viewDate, realToday)) return;
+  special = loadSpecialState(viewDate);
   special.text = document.getElementById('specialText').value;
-  saveSpecial(special);
+  saveSpecialState(viewDate, special);
 }
 
-function render() {
+// ── Main render ───────────────────────────────────────────
+function renderPage() {
+  const isToday   = isSameDay(viewDate, realToday);
+  const isPast    = viewDate < realToday;
+  const isCamp    = isDanceCampDate(viewDate);
+  const dow       = viewDate.getDay();
+  const state     = loadTaskState(viewDate);
+
   // Subtitle
-  document.getElementById('subtitle').textContent = 'Ma ' + DAYS_HU[dow] + ' van 🌸 Pipáld ki a mai feladatokat!';
+  if (isToday) {
+    document.getElementById('subtitle').textContent = 'Ma ' + DAYS_HU[dow] + ' van 🌸 Pipáld ki a mai feladatokat!';
+  } else {
+    const d = viewDate;
+    document.getElementById('subtitle').textContent =
+      DAYS_HU[dow] + ', ' + MONTHS_HU[d.getMonth()] + ' ' + d.getDate() + '. – visszanézés 📅';
+  }
+
+  // Past banner
+  const pastBanner = document.getElementById('pastBanner');
+  if (!isToday && isInSummer(viewDate)) {
+    pastBanner.classList.add('show');
+    const d = viewDate;
+    document.getElementById('pastBannerText').textContent =
+      isPast
+        ? '📅 ' + DAYS_HU[dow] + ' ' + MONTHS_HU[d.getMonth()] + ' ' + d.getDate() + '. – ez a nap már elmúlt'
+        : '📅 ' + DAYS_HU[dow] + ' ' + MONTHS_HU[d.getMonth()] + ' ' + d.getDate() + '. – ez még jövőbeli nap';
+  } else {
+    pastBanner.classList.remove('show');
+  }
+
+  // Special day card
+  document.getElementById('specialDayCard').style.display = isCamp ? 'none' : 'block';
+  renderSpecialControls(!isToday);
 
   // Dance camp
-  document.getElementById('danceBanner').style.display = isDanceCamp ? 'block' : 'none';
-  document.getElementById('checklist').style.display = isDanceCamp ? 'none' : 'flex';
-  document.getElementById('specialDayCard').style.display = isDanceCamp ? 'none' : 'block';
+  document.getElementById('danceBanner').style.display = isCamp ? 'block' : 'none';
+  document.getElementById('checklist').style.display   = isCamp ? 'none' : 'flex';
 
-  if (isDanceCamp) {
+  // Progress label
+  document.getElementById('progressLabel').textContent = isToday ? 'Mai haladás' : 'Napi haladás';
+
+  // Reset button
+  document.getElementById('resetBtn').style.display = isToday ? 'block' : 'none';
+
+  if (isCamp) {
     document.getElementById('barInner').style.width = '100%';
     document.getElementById('pctLabel').textContent = '💃';
     document.getElementById('stars').innerHTML = '';
     return;
   }
 
+  // Build tasks for this specific day
+  const tasks = buildTasks(viewDate);
   const list = document.getElementById('checklist');
   list.innerHTML = '';
 
   tasks.forEach((t, i) => {
     const done = !!state[i];
     const card = document.createElement('div');
-    card.className = 'task-card' + (done ? ' done' : '') + (t.starCard ? ' star-card' : '');
+    card.className = 'task-card'
+      + (done ? ' done' : '')
+      + (t.starCard ? ' star-card' : '')
+      + (!isToday ? ' readonly-card' : '');
     card.style.setProperty('--accent', t.accent);
     card.style.setProperty('--accent2', t.accent2 || t.accent);
-    if (!t.starCard) card.onclick = () => toggle(i);
+    if (!t.starCard && isToday) card.onclick = () => toggle(i, viewDate, tasks);
 
     let extras = '';
-    if (t.weather === 'both') {
+    if (t.weather === 'both')
       extras += `<span class="badge-weather badge-sun">☀️ Kint</span><span class="badge-weather badge-rain" style="margin-left:4px">🌧️ Bent</span>`;
-    }
-    if (t.special) {
+    if (t.special)
       extras += `<span class="badge-weather badge-special" style="margin-left:4px">${t.special}</span>`;
-    }
-
-    const checkboxHTML = t.starCard ? '' : '<div class="checkbox"></div>';
 
     card.innerHTML = `
       <div class="emoji-badge">${t.emoji}</div>
@@ -517,29 +596,30 @@ function render() {
         <div class="task-desc">${t.desc}</div>
         ${extras ? `<div style="margin-top:5px">${extras}</div>` : ''}
       </div>
-      ${checkboxHTML}
+      ${(!t.starCard) ? '<div class="checkbox"></div>' : ''}
     `;
     list.appendChild(card);
   });
 
-  updateProgress();
+  updateProgress(state, tasks);
 }
 
-function toggle(i) {
+function toggle(i, d, tasks) {
   if (tasks[i] && tasks[i].starCard) return;
-  state[i] = !state[i];
-  saveState(state);
-  render();
-  if (state[i]) celebrate(i);
+  const s = loadTaskState(d);
+  s[i] = !s[i];
+  saveTaskState(d, s);
+  renderPage();
+  renderDayNav();
+  if (s[i]) celebrate(i);
 }
 
-function updateProgress() {
+function updateProgress(state, tasks) {
   const checkable = tasks.filter(t => !t.starCard);
   const done = checkable.filter((_, i) => !!state[i]).length;
-  const pct = Math.round((done / checkable.length) * 100);
+  const pct  = Math.round(done / checkable.length * 100);
   document.getElementById('barInner').style.width = pct + '%';
   document.getElementById('pctLabel').textContent = pct + '%';
-
   const starsEl = document.getElementById('stars');
   if (done === checkable.length) {
     starsEl.innerHTML = '🏆 Szuper! Minden feladat kész! Büszke vagyok rád! 🌟🌟🌟';
@@ -555,25 +635,26 @@ function updateProgress() {
 
 function celebrate(i) {
   const cards = document.querySelectorAll('.task-card');
-  if (cards[i]) {
-    cards[i].classList.add('pop');
-    setTimeout(() => cards[i].classList.remove('pop'), 300);
-  }
+  if (cards[i]) { cards[i].classList.add('pop'); setTimeout(() => cards[i].classList.remove('pop'), 300); }
 }
 
 function resetAll() {
+  if (!isSameDay(viewDate, realToday)) return;
   if (confirm('Biztosan visszaállítsuk az összes feladatot? (Új nap!)')) {
-    state = {}; saveState(state);
-    special = { tag: null, text: '' }; saveSpecial(special);
-    renderSpecialControls();
-    render();
+    saveTaskState(viewDate, {});
+    saveSpecialState(viewDate, { tag:null, text:'' });
+    renderSpecialControls(false);
+    renderPage();
+    renderDayNav();
   }
 }
 
 // ── Init ──────────────────────────────────────────────────
+// Set navOffset so today is visible
+navOffset = Math.max(0, Math.floor((realToday - SUMMER_START) / 86400000) - 7);
 renderSummerProgress();
-renderSpecialControls();
-render();
+renderDayNav();
+renderPage();
 </script>
 </body>
 </html>
